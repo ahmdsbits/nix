@@ -1,4 +1,4 @@
-{
+{ self, ... }:{
   flake.modules.nixos.gui = { pkgs, ... }: {
     programs.nix-ld.libraries = with pkgs; [
       libX11
@@ -34,5 +34,7 @@
       nspr
       cups.lib
     ];
+    
+    home-manager.users.root.imports = [ self.modules.homeManager.gui ];
   };
 }
