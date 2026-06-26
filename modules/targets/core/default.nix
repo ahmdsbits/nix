@@ -2,7 +2,7 @@
   flake.modules.nixos.core = { pkgs, config, ... }: {
     system.stateVersion = "26.11";
     
-    i18n.defaultLocale = "en_CA.UTF-8";
+    i18n.defaultLocale = "en_AU.UTF-8";
     time.timeZone = "Asia/Dhaka";
     
     environment.systemPackages = with pkgs; [
@@ -14,8 +14,11 @@
       unzip
       unrar
       p7zip
-      lz4 
+      lz4
+      home-manager
     ];
+    
+    programs.git.enable = true;
     
     programs.nix-ld.enable = true;
     programs.nix-ld.libraries = with pkgs; [
@@ -29,6 +32,7 @@
     
     home-manager.useGlobalPkgs = true;
     home-manager.useUserPackages = true;
+    home-manager.backupFileExtension = "bak";
     home-manager.users.root.imports = [ self.modules.homeManager.core ];
     
     imports = with self.modules.nixos; [

@@ -3,6 +3,7 @@
     modules = with self.modules.nixos; [
       ahmd-lpl
       laptop
+      secure-boot
       gnome
       
       # Users
@@ -11,10 +12,12 @@
   };
   
   flake.homeConfigurations."ahmds@ahmd-lpl" = inputs.home-manager.lib.homeManagerConfiguration {
-    pkgs = self.legacyPackages.x86_64-linux;
+    pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
     modules = with self.modules.homeManager; [
       ahmds
       laptop
+      ahmd-lpl
+      gnome
     ];
   };
 }

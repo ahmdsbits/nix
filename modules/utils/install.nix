@@ -3,7 +3,7 @@
     apps.nixos-install = {
       type = "app";
       program = let
-        substituters = builtins.concatStringsSep " " config.shared.substituters.trusted-substituters;
+        substituters = builtins.concatStringsSep " " config.shared.substituters.substituters;
         public-keys = builtins.concatStringsSep " " config.shared.substituters.trusted-public-keys;
         script = pkgs.writeShellScriptBin "nixos-install" ''
           set -e

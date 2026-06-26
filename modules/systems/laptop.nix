@@ -15,6 +15,7 @@
       core
       cli
       gui
+      consumer
     ];
   };
 }

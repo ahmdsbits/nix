@@ -1,6 +1,11 @@
 { inputs, lib, self, ... }: {
   flake.modules.nixos.core = { pkgs, config, ... }: {
-    nixpkgs.pkgs = self.legacyPackages.${config.nixpkgs.hostPlatform.system};
+    nixpkgs = {
+      config.allowUnfree = true;
+      overlays = [
+        inputs.nix-cachyos-kernel.overlays.pinned
+      ];
+    };
     nix = let
       flakeInputs = (lib.filterAttrs (_: lib.isType "flake") inputs) // {
         nixpkgs = self;
@@ -11,8 +16,6 @@
       settings = {
         experimental-features = "nix-command flakes";
 
-        trusted-substituters = config.shared.substituters.trusted-substituters;
-        trusted-public-keys = config.shared.substituters.trusted-public-keys;
         trusted-users = [ "ahmds" ];
 
         flake-registry = "";

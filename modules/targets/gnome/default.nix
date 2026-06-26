@@ -62,13 +62,13 @@
         "org.gtk.Gtk3theme.adw-gtk3-dark"
         "com.github.tchx84.Flatseal"
       ];
-      overrides.settings = {
+      overrides = {
         global = {
           Context.filesystems = [
             "xdg-config/fontconfig:rw"
             "/run/current-system/sw/share/X11/fonts:ro"
             "/nix/store:ro"
-            "xdg-data/fonts:ro"
+            "xdg-data/fonts:rw"
           ];
           Environment = {
             ELECTRON_OZONE_PLATFORM_HINT = "auto";

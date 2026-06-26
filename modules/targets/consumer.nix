@@ -29,4 +29,21 @@
       inputs.nix-flatpak.nixosModules.nix-flatpak
     ];
   };
+  
+  flake.modules.homeManager.consumer = {
+    services.flatpak = {
+      enable = true;
+      update.onActivation = true;
+      update.auto = {
+        enable = true;
+        onCalendar = "daily";
+      };
+      packages = [
+
+      ];
+    };
+    imports = [
+      inputs.nix-flatpak.homeManagerModules.nix-flatpak
+    ];
+  };
 }

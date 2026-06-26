@@ -87,8 +87,8 @@
                 TARGET_PL1=28000000
                 TARGET_PL2=28000000
             elif [ "$PROFILE" == "throughput-performance" ]; then
-                TARGET_PL1=30000000
-                TARGET_PL2=65000000
+                TARGET_PL1=28000000
+                TARGET_PL2=67000000
             else
                 TARGET_PL1=28000000
                 TARGET_PL2=60000000

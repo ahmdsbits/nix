@@ -2,12 +2,13 @@
   description = "Ahmed's Nix catch-all config";
   
   inputs = {
-    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1";
+    nixpkgs.url = "github:ahmdsbits/nixpkgs";
 
     flake-parts.url = "https://flakehub.com/f/hercules-ci/flake-parts/0.1";
     import-tree.url = "github:vic/import-tree";
     
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
+    lanzaboote.url = "https://flakehub.com/f/nix-community/lanzaboote/*";
     
     home-manager = {
       url = "https://flakehub.com/f/nix-community/home-manager/0.1";

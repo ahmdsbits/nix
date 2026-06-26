@@ -1,4 +1,5 @@
 let fontconfig = {
+  enable = true;
   defaultFonts = {
     serif = [
       "Libre Baskerville"

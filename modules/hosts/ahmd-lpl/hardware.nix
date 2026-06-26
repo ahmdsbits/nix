@@ -10,6 +10,8 @@
     hardware.bluetooth.enable = true;
     hardware.sensor.iio.enable = true;
     
+    boot.plymouth.extraConfig = "DeviceScale=1";
+    
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v4;
 
     boot.initrd.availableKernelModules = [

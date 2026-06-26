@@ -13,7 +13,7 @@ in {
     fonts.fontconfig = fontconfig;
   };
   
-  flake.modules.homeManager.fonts = {
+  flake.modules.homeManager.gnome = {
     fonts.fontconfig = fontconfig;
   };
 }
