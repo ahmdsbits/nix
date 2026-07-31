@@ -3,7 +3,7 @@
     apps.deploy = {
       type = "app";
       program = let
-        substituters = builtins.concatStringsSep " " config.shared.substituters.trusted-substituters;
+        substituters = builtins.concatStringsSep " " config.shared.substituters.substituters;
         public-keys = builtins.concatStringsSep " " config.shared.substituters.trusted-public-keys;
         configs = builtins.concatStringsSep " " (builtins.attrNames self.homeConfigurations);
         script = pkgs.writeShellScriptBin "deploy" ''
@@ -20,8 +20,19 @@
           for CONFIG in ${configs}; do
             if [[ "$CONFIG" == *"@$TARGET_HOST" ]]; then
               TARGET_USERNAME="''${CONFIG%%@*}"
+              TARGET_UID=$(id -u "$TARGET_USERNAME")
+              BUS_PATH="/run/user/$TARGET_UID/bus"
+              
               echo -e "Deploying user $CONFIG"
-              sudo -H -u "$TARGET_USERNAME" bash -c "home-manager switch --flake \".#$CONFIG\" -b bak"
+              if [ -S "$BUS_PATH" ]; then
+                sudo -H -u "$TARGET_USERNAME" \
+                  env XDG_RUNTIME_DIR="/run/user/$TARGET_UID" \
+                      DBUS_SESSION_BUS_ADDRESS="unix:path=$BUS_PATH" \
+                  bash -c "home-manager switch --flake \".#$CONFIG\" -b bak"
+              else
+                sudo -H -u "$TARGET_USERNAME" \
+                  bash -c "home-manager switch --flake \".#$CONFIG\" -b bak"
+              fi
             fi
           done
         '';

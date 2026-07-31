@@ -7,9 +7,7 @@
       ];
     };
     nix = let
-      flakeInputs = (lib.filterAttrs (_: lib.isType "flake") inputs) // {
-        nixpkgs = self;
-      };
+      flakeInputs = (lib.filterAttrs (_: lib.isType "flake") inputs);
     in
     {
       package = pkgs.nixVersions.latest;

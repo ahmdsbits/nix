@@ -1,22 +1,16 @@
 { self, ... }: {
-  flake.modules.nixos.laptop = {
+  flake.modules.nixos.server = {
     imports = with self.modules.nixos; [
       core
       cli
-      gui
       networking
-      printing
-      consumer
     ];
   };
   
-  flake.modules.homeManager.laptop = {
+  flake.modules.homeManager.server = {
     imports = with self.modules.homeManager; [
       core
       cli
-      gui
-      printing
-      consumer
     ];
   };
 }

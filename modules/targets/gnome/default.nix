@@ -1,5 +1,5 @@
 { self, lib, ... }: {
-  flake.modules.nixos.gnome = { pkgs, options, ... }: {
+  flake.modules.nixos.gnome = { pkgs, ... }: {
     services.pulseaudio.enable = false;
     services.pipewire.audio.enable = true;
     services.pipewire.alsa.enable = true;
@@ -30,16 +30,11 @@
       cine
       fragments
       eyedropper
-      wl-clipboard
-      wl-clipboard-x11
+      xclip
       gnome-tweaks
       adwaita-icon-theme-legacy
       adwaita-icon-theme
       adw-gtk3
-      gnomeExtensions.appindicator
-      gnomeExtensions.pano
-      gnomeExtensions.caffeine
-      gnomeExtensions.paperwm
     ];
     
     environment.gnome.excludePackages = with pkgs; [
@@ -48,14 +43,28 @@
       gnome-maps
       gnome-music
       decibels
-      totem
+      showtime
       evince
       gnome-system-monitor
       gnome-console
     ];
     
-    programs.kdeconnect.package = pkgs.gnomeExtensions.gsconnect;
+    # Allow GSConnect/KDEConnect to work
+    networking.firewall = rec {
+      allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
+      allowedUDPPortRanges = allowedTCPPortRanges;
+    };
     
+    systemd.tmpfiles.rules = [
+      "L+ /etc/xdg/monitors.xml        - - - - ${./monitors.xml}"
+    ];
+    
+    imports = with self.modules.nixos; [
+      # tweaks-gstreamer
+    ];
+  };
+  
+  flake.modules.homeManager.gnome = { options, pkgs, ... }: {
     services.flatpak = lib.optionalAttrs (options ? services.flatpak.packages) {
       packages = [
         "org.gtk.Gtk3theme.adw-gtk3"
@@ -76,13 +85,14 @@
         };
       };
     };
-    
-    systemd.tmpfiles.rules = [
-      "L+ /etc/xdg/monitors.xml        - - - - ${./monitors.xml}"
-    ];
-    
-    imports = with self.modules.nixos; [
-      tweaks-gstreamer
-    ];
+    programs.gnome-shell = {
+      enable = true;
+      extensions = with pkgs.gnomeExtensions; [
+        { package = appindicator; }
+        { package = caffeine; }
+        { package = copyous; }
+        { package = gsconnect; }
+      ];
+    };
   };
 }

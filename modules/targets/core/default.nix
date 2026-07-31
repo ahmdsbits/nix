@@ -18,7 +18,14 @@
       home-manager
     ];
     
-    programs.git.enable = true;
+    programs.git = {
+      enable = true;
+      config = {
+        safe = {
+          directory = [ "/etc/nixos" ];
+        };
+      };
+    };
     
     programs.nix-ld.enable = true;
     programs.nix-ld.libraries = with pkgs; [
@@ -44,5 +51,6 @@
   flake.modules.homeManager.core = {
     home.stateVersion = "26.11";
     manual.manpages.enable = false;
+    news.display = "silent";
   };
 }

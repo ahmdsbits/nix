@@ -110,4 +110,13 @@
       '';
     };
   };
+  flake.modules.homeManager.ahmd-lpl = {
+    xdg = {
+      enable = true;
+      desktopEntries.tuned-gui = {
+        name = "tuned-gui";
+        noDisplay = true;
+      };
+    };
+  };
 }

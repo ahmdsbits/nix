@@ -3,7 +3,7 @@
     modules = with self.modules.nixos; [
       ahmd-lpl
       laptop
-      secure-boot
+      # secure-boot
       gnome
       
       # Users
@@ -15,6 +15,7 @@
     pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
     modules = with self.modules.homeManager; [
       ahmds
+      ahmds-devel
       laptop
       ahmd-lpl
       gnome

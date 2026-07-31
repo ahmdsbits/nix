@@ -1,4 +1,4 @@
-{ self, ... }: {
+{ self, inputs, ... }: {
   flake.modules.nixos.ahmds = {
     users.users.ahmds = {
       isNormalUser = true;
@@ -14,7 +14,7 @@
     };
   };
   
-  flake.modules.homeManager.ahmds = {
+  flake.modules.homeManager.ahmds = { pkgs, ... }: {
     home.username = "ahmds";
     home.homeDirectory = "/home/ahmds";
   };

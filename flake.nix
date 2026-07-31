@@ -8,7 +8,6 @@
     import-tree.url = "github:vic/import-tree";
     
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
-    lanzaboote.url = "https://flakehub.com/f/nix-community/lanzaboote/*";
     
     home-manager = {
       url = "https://flakehub.com/f/nix-community/home-manager/0.1";
@@ -19,6 +18,7 @@
   
   outputs = inputs@{ flake-parts, import-tree, home-manager, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } ({ lib, ... }: {
+      systems = [ "x86_64-linux" ];
       imports = [
         flake-parts.flakeModules.modules
         home-manager.flakeModules.home-manager
