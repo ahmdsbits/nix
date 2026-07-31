@@ -1,67 +1,37 @@
 { self, ... }: {
-  flake.modules.nixos.ahmd-lpl = { pkgs, lib, config, ... }: {
+  flake.modules.nixos.hsrv = { pkgs, lib, config, ... }: {
     nixpkgs.hostPlatform = "x86_64-linux";
-    hardware.enableRedistributableFirmware = true;
+
     hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-    powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
-
-    hardware.graphics.enable32Bit = true;
-    services.hardware.bolt.enable = true;
-    hardware.bluetooth.enable = true;
-    hardware.sensor.iio.enable = true;
-    
+    powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
+      
     services.fstrim.enable = true;
-    
-    boot.plymouth.extraConfig = "DeviceScale=1";
-    boot.consoleLogLevel = 0;
-    boot.initrd.verbose = false;
-    
-    boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
+    hardware.bluetooth.enable = true;
 
-    boot.initrd.availableKernelModules = [
-      "xhci_pci"
-      "thunderbolt"
-      "nvme"
-      "usb_storage"
-      "usbhid"
-      "sd_mod"
-    ];
-    boot.initrd.kernelModules = [ ];
+    boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto;
+
+    boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+    boot.initrd.kernelModules = [  ];
     boot.kernelModules = [ "kvm-intel" ];
     boot.extraModulePackages = [ ];
     boot.supportedFilesystems = [ "ntfs" ];
 
     boot.kernelParams = [
-      "quiet"
-      "splash"
-      "systemd.show_status=auto"
-      "udev.log_level=3"
       "zswap.enabled=1"
       "zswap.shrinker_enabled=1"
       "zswap.compressor=zstd"
-      "zswap.max_pool_percent=60"
+      "zswap.max_pool_percent=70"
       "zswap.zpool=zsmalloc"
       "transparent_hugepage=madvise"
-      # "i915.force_probe=!7dd5"
-      # "xe.force_probe=7dd5"
     ];
 
-    boot.initrd.systemd.enable = true;
-
-    # boot.loader.systemd-boot.enable = true;
-    # boot.loader.timeout = 0;
-    # boot.loader.systemd-boot.configurationLimit = 10;
-    # boot.loader.systemd-boot.consoleMode = "max";
-    
-    environment.systemPackages = [ pkgs.sbctl ];
     boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.limine = {
       enable = true;
       efiSupport = true;
       maxGenerations = 10;
       extraConfig = ''
-        quiet: yes
-        timeout: 0
+        timeout: 1
       '';
       style = {
         wallpapers = [];
@@ -119,6 +89,7 @@
         fsType = "btrfs";
         options = [
           "subvol=.@root"
+          "compress=zstd"
           "noatime"
         ];
       };
@@ -128,6 +99,7 @@
         fsType = "btrfs";
         options = [
           "subvol=.@tmp"
+          "compress=zstd"
           "noatime"
         ];
       };
@@ -178,15 +150,6 @@
       };
     };
 
-    swapDevices = [
-      {
-        label = "Swap";
-        discardPolicy = "both";
-      }
-    ];
-  
-    imports = with self.modules.nixos; [
-      gpu-intel
-    ];
+    swapDevices = [ { label = "Swap"; discardPolicy = "both"; } ];
   };
 }

@@ -14,7 +14,6 @@
     modules = with self.modules.homeManager; [
       ahmds
       server
-      hsrv
     ];
   };
 }

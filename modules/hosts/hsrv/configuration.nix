@@ -1,7 +1,17 @@
 { self, ... }: {
-  flake.modules.nixos.ahmd-lpl = { pkgs, ... }: {
-    home-manager.users.root.imports = [ self.modules.homeManager.ahmd-lpl ];
-    
-    networking.hostName = "ahmd-lpl";
+  flake.modules.nixos.hsrv = { pkgs, ... }: {
+    networking.hostName = "hsrv";
+
+    services.openssh = {
+      enable = true;
+      ports = [ 22 ];
+      settings = {
+        PasswordAuthentication = true;
+        AllowUsers = null;
+        UseDns = true;
+        X11Forwarding = false;
+        PermitRootLogin = "no";
+      };
+    };
   };
 }
