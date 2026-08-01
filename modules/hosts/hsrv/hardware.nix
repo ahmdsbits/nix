@@ -60,7 +60,7 @@
         device = "/dev/disk/by-label/NixOS";
         fsType = "btrfs";
         options = [
-          "subvol=.@root"
+          "subvol=@root"
           "compress=zstd"
           "noatime"
           "ro"
@@ -71,7 +71,7 @@
         device = "/dev/disk/by-label/NixOS";
         fsType = "btrfs";
         options = [
-          "subvol=.@tmp"
+          "subvol=@tmp"
           "compress=zstd"
           "noatime"
         ];
