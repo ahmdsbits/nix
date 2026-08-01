@@ -53,36 +53,7 @@
       "vm.max_map_count" = 2147483642;
     };
 
-    boot.initrd.systemd.extraBin = {
-      mkdir = "${pkgs.coreutils}/bin/mkdir";
-    };
-    boot.initrd.systemd.services.clean = {
-      description = "Clean up root and tmp";
-      wantedBy = [ "initrd.target" ];
-      before = [ "sysroot.mount" ];
-      requires = [ "dev-disk-by\\x2dlabel-NixOS.device" ];
-      after = [ "dev-disk-by\\x2dlabel-NixOS.device" ];
-      unitConfig.DefaultDependencies = "no";
-      serviceConfig.Type = "oneshot";
-      script = ''
-        /bin/mkdir -p /clean
-        # Mount the top-level btrfs filesystem, not the individual subvolumes
-        /bin/mount -t btrfs -o subvol=/ /dev/disk/by-label/NixOS /clean
-
-        # Delete the old subvolumes
-        # Note: If you have nested subvolumes inside root/tmp, you may need a loop to delete them first, 
-        # or use `btrfs subvolume delete -c` depending on your btrfs-progs version.
-        btrfs subvolume delete /clean/.@root
-        btrfs subvolume delete /clean/.@tmp
-
-        # Create fresh, empty subvolumes in their place
-        btrfs subvolume create /clean/.@root
-        btrfs subvolume create /clean/.@tmp
-
-        /bin/umount /clean
-        /bin/rm -rf /clean
-      '';
-    };
+    boot.tmp.cleanOnBoot = true;
 
     fileSystems = {
       "/" = {
@@ -92,6 +63,7 @@
           "subvol=.@root"
           "compress=zstd"
           "noatime"
+          "ro"
         ];
       };
 
