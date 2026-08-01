@@ -121,6 +121,7 @@
         fsType = "btrfs";
         options = [
           "subvol=@root"
+          "compress=zstd"
           "noatime"
         ];
       };
