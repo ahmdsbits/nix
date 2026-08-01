@@ -53,7 +53,33 @@
       "vm.max_map_count" = 2147483642;
     };
 
-    boot.tmp.cleanOnBoot = true;
+    boot.initrd.systemd.services.wipe = {
+      description = "Wipe root";
+      wantedBy = [ "initrd.target" ];
+      before = [ "sysroot.mount" ];
+      requires = [ "dev-disk-by\\x2dlabel-NixOS.device" ];
+      after = [ "dev-disk-by\\x2dlabel-NixOS.device" ];
+      unitConfig.DefaultDependencies = "no";
+      serviceConfig.Type = "oneshot";
+      script = ''
+        ${pkgs.coreutils}/bin/mkdir -p /wipe
+        ${pkgs.util-linux}/bin/mount -t btrfs -o subvol=/ /dev/disk/by-label/NixOS /wipe
+
+        if [ -d /wipe/@root ]; then
+          ${pkgs.btrfs-progs}/bin/btrfs subvolume list -o /wipe/@root | ${pkgs.coreutils}/bin/cut -f9 -d' ' |
+          while read -r subvol; do
+            ${pkgs.btrfs-progs}/bin/btrfs subvolume delete "/wipe/$subvol" || true
+          done
+          ${pkgs.btrfs-progs}/bin/btrfs subvolume delete /wipe/@root || true
+        fi
+
+        # Restore the fresh state from your read-only blank snapshots
+        ${pkgs.btrfs-progs}/bin/btrfs subvolume create /wipe/@root
+
+        ${pkgs.util-linux}/bin/umount /wipe
+        ${pkgs.coreutils}/bin/rm -rf /wipe
+      '';
+    };
 
     fileSystems = {
       "/" = {
@@ -61,17 +87,6 @@
         fsType = "btrfs";
         options = [
           "subvol=@root"
-          "compress=zstd"
-          "noatime"
-          "ro"
-        ];
-      };
-
-      "/tmp" = {
-        device = "/dev/disk/by-label/NixOS";
-        fsType = "btrfs";
-        options = [
-          "subvol=@tmp"
           "compress=zstd"
           "noatime"
         ];
