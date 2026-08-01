@@ -84,9 +84,11 @@
 
     boot.initrd.systemd.extraBin = {
       mkdir = "${pkgs.coreutils}/bin/mkdir";
+      rm = "${pkgs.coreutils}/bin/rm";
+      cut = "${pkgs.coreutils}/bin/cut";
     };
-    boot.initrd.systemd.services.clean = {
-      description = "Clean up root and tmp";
+    boot.initrd.systemd.services.wipe = {
+      description = "Wipe root";
       wantedBy = [ "initrd.target" ];
       before = [ "sysroot.mount" ];
       requires = [ "dev-disk-by\\x2dlabel-NixOS.device" ];
@@ -94,22 +96,22 @@
       unitConfig.DefaultDependencies = "no";
       serviceConfig.Type = "oneshot";
       script = ''
-        /bin/mkdir -p /clean
-        # Mount the top-level btrfs filesystem, not the individual subvolumes
-        /bin/mount -t btrfs -o subvol=/ /dev/disk/by-label/NixOS /clean
+        /bin/mkdir -p /wipe
+        /bin/mount -t btrfs -o subvol=/ /dev/disk/by-label/NixOS /wipe
 
-        # Delete the old subvolumes
-        # Note: If you have nested subvolumes inside root/tmp, you may need a loop to delete them first, 
-        # or use `btrfs subvolume delete -c` depending on your btrfs-progs version.
-        btrfs subvolume delete /clean/.@root
-        btrfs subvolume delete /clean/.@tmp
+        if [ -d /wipe/@root ]; then
+          /bin/btrfs subvolume list -o /wipe/@root | /bin/cut -f9 -d' ' |
+          while read -r subvol; do
+            /bin/btrfs subvolume delete "/wipe/$subvol" || true
+          done
+          /bin/btrfs subvolume delete /wipe/@root || true
+        fi
 
-        # Create fresh, empty subvolumes in their place
-        btrfs subvolume create /clean/.@root
-        btrfs subvolume create /clean/.@tmp
+        # Restore the fresh state from your read-only blank snapshots
+        /bin/btrfs subvolume create /wipe/@root
 
-        /bin/umount /clean
-        /bin/rm -rf /clean
+        /bin/umount /wipe
+        /bin/rm -rf /wipe
       '';
     };
 
@@ -118,16 +120,7 @@
         device = "/dev/disk/by-label/NixOS";
         fsType = "btrfs";
         options = [
-          "subvol=.@root"
-          "noatime"
-        ];
-      };
-
-      "/tmp" = {
-        device = "/dev/disk/by-label/NixOS";
-        fsType = "btrfs";
-        options = [
-          "subvol=.@tmp"
+          "subvol=@root"
           "noatime"
         ];
       };
