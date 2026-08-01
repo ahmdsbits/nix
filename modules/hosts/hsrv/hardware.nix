@@ -2,6 +2,7 @@
   flake.modules.nixos.hsrv = { pkgs, lib, config, ... }: {
     nixpkgs.hostPlatform = "x86_64-linux";
 
+    hardware.enableRedistributableFirmware = true;
     hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
       
@@ -23,8 +24,6 @@
       "zswap.max_pool_percent=70"
       "zswap.zpool=zsmalloc"
       "transparent_hugepage=madvise"
-      "libata.force=noncq"
-      "intel_idle.max_cstate=1"
     ];
 
     boot.loader.efi.canTouchEfiVariables = true;
