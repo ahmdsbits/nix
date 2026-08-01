@@ -8,7 +8,7 @@
     services.kmscon = {
       enable = true;
       config = {
-        hwaccel = true;
+        hwaccel = false;
         font-name = "Iosevka Nerd Font";
         font-size = 14;
       };
