@@ -23,6 +23,8 @@
       "zswap.max_pool_percent=70"
       "zswap.zpool=zsmalloc"
       "transparent_hugepage=madvise"
+      "libata.force=noncq"
+      "intel_idle.max_cstate=1"
     ];
 
     boot.loader.efi.canTouchEfiVariables = true;
