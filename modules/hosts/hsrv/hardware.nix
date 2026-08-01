@@ -53,6 +53,11 @@
       "vm.max_map_count" = 2147483642;
     };
 
+    boot.initrd.systemd.extraBin = {
+      mkdir = "${pkgs.coreutils}/bin/mkdir";
+      rm = "${pkgs.coreutils}/bin/rm";
+      cut = "${pkgs.coreutils}/bin/cut";
+    };
     boot.initrd.systemd.services.wipe = {
       description = "Wipe root";
       wantedBy = [ "initrd.target" ];
@@ -62,22 +67,22 @@
       unitConfig.DefaultDependencies = "no";
       serviceConfig.Type = "oneshot";
       script = ''
-        ${pkgs.coreutils}/bin/mkdir -p /wipe
-        ${pkgs.util-linux}/bin/mount -t btrfs -o subvol=/ /dev/disk/by-label/NixOS /wipe
+        /bin/mkdir -p /wipe
+        /bin/mount -t btrfs -o subvol=/ /dev/disk/by-label/NixOS /wipe
 
         if [ -d /wipe/@root ]; then
-          ${pkgs.btrfs-progs}/bin/btrfs subvolume list -o /wipe/@root | ${pkgs.coreutils}/bin/cut -f9 -d' ' |
+          /bin/btrfs subvolume list -o /wipe/@root | /bin/cut -f9 -d' ' |
           while read -r subvol; do
-            ${pkgs.btrfs-progs}/bin/btrfs subvolume delete "/wipe/$subvol" || true
+            /bin/btrfs subvolume delete "/wipe/$subvol" || true
           done
-          ${pkgs.btrfs-progs}/bin/btrfs subvolume delete /wipe/@root || true
+          /bin/btrfs subvolume delete /wipe/@root || true
         fi
 
         # Restore the fresh state from your read-only blank snapshots
-        ${pkgs.btrfs-progs}/bin/btrfs subvolume create /wipe/@root
+        /bin/btrfs subvolume create /wipe/@root
 
-        ${pkgs.util-linux}/bin/umount /wipe
-        ${pkgs.coreutils}/bin/rm -rf /wipe
+        /bin/umount /wipe
+        /bin/rm -rf /wipe
       '';
     };
 
