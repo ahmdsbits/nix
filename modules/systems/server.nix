@@ -8,6 +8,7 @@
   };
   
   flake.modules.homeManager.server = {
+    programs.starship.enable = false;
     imports = with self.modules.homeManager; [
       core
       cli

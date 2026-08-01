@@ -5,7 +5,7 @@
     hardware.enableRedistributableFirmware = true;
     hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
-      
+    
     services.fstrim.enable = true;
     hardware.bluetooth.enable = true;
 

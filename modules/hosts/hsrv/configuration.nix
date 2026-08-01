@@ -2,19 +2,6 @@
   flake.modules.nixos.hsrv = { pkgs, ... }: {
     networking.hostName = "hsrv";
 
-    fonts.packages = with pkgs; [
-      nerd-fonts.iosevka
-    ];
-    services.kmscon = {
-      enable = true;
-      config = {
-        hwaccel = false;
-        font-name = "Iosevka Nerd Font";
-        font-size = 14;
-      };
-      extraOptions = "--term xterm-256color";
-    };
-
     services.openssh = {
       enable = true;
       ports = [ 22 ];
