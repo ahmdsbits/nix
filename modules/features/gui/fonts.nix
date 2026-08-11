@@ -2,7 +2,7 @@ let fontconfig = {
   enable = true;
   defaultFonts = {
     serif = [
-      "Libre Baskerville"
+      "New Computer Modern"
       "Noto Serif"
       "Noto Serif Bengali"
       "Amiri"
@@ -14,14 +14,13 @@ in {
   flake.modules.nixos.gui = { pkgs, ... }: {
     fonts.fontDir.enable = true;
     fonts.packages = with pkgs; [
-      caladea
+      newcomputermodern
       noto-fonts
       noto-fonts-cjk-serif
       noto-fonts-cjk-sans
       noto-fonts-color-emoji
       amiri
       texlivePackages.librebaskerville
-      texlivePackages.palatino
       eb-garamond
       inter
       nerd-fonts.iosevka

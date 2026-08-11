@@ -3,8 +3,8 @@
     modules = with self.modules.nixos; [
       ahmd-lpl
       laptop
-      # secure-boot
       gnome
+      containers
       
       # Users
       ahmds
