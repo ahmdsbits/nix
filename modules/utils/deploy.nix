@@ -12,7 +12,7 @@
           TARGET_HOST="''${1:-$(hostname)}"
           
           echo "Deploying NixOS configuration $TARGET_HOST"
-          sudo nixos-rebuild switch --flake ".#$TARGET_HOST" \
+          sudo nixos-rebuild boot --flake ".#$TARGET_HOST" \
             --option extra-substituters "${substituters}" \
             --option extra-trusted-public-keys "${public-keys}"
           echo
