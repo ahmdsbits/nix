@@ -1,14 +1,20 @@
 {
-  flake.modules.nixos.cli = { pkgs, ... }: {
+  flake.modules.nixos.cli = { pkgs, lib, ... }: {
     environment.shells = with pkgs; [ fish ];
     users.defaultUserShell = pkgs.fish;
     programs.fish.enable = true;
 
     environment.variables = {};
     environment.sessionVariables = {};
+
+    environment.systemPackages = with pkgs; [
+      (lib.hiPrio (writeShellScriptBin "xdg-open" ''
+        exec ${xdg-utils}/bin/xdg-open "$@" > /dev/null 2>&1
+      ''))
+    ];
   };
 
-  flake.modules.homeManager.cli = { pkgs, ... }: {
+  flake.modules.homeManager.cli = { ... }: {
     programs.fish = {
       enable = true;
       interactiveShellInit = ''
