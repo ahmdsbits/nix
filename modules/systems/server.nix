@@ -4,6 +4,7 @@
       core
       cli
       networking
+      containers
     ];
   };
   
