@@ -5,8 +5,5 @@
     environment.systemPackages = with pkgs; [
       dotnetCorePackages.sdk_10_0
     ];
-    environment.sessionVariables = {
-      DOTNET_ROOT = "${pkgs.dotnetCorePackages.sdk_10_0}/share/dotnet";
-    };
   };
 }
