@@ -3,7 +3,7 @@
     modules = with self.modules.nixos; [
       hsrv
       server
-      
+
       # Users
       ahmds
     ];

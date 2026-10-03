@@ -141,6 +141,15 @@
         device = "/dev/disk/by-label/EFI";
         fsType = "vfat";
       };
+
+      "/mnt/Data" = {
+        device = "/dev/disk/by-label/Data";
+        fsType = "btrfs";
+        options = [
+          "compress=zstd"
+          "noatime"
+        ];
+      };
     };
 
     swapDevices = [ { label = "Swap"; discardPolicy = "both"; } ];

@@ -2,7 +2,7 @@
   description = "Ahmed's Nix catch-all config";
   
   inputs = {
-    nixpkgs.url = "github:ahmdsbits/nixpkgs";
+    nixpkgs.url = "github:ahmdsbits/nixpkgs/c0d0a3652cc6cedad65253416164a84201234981";
 
     flake-parts.url = "https://flakehub.com/f/hercules-ci/flake-parts/0.1";
     import-tree.url = "github:vic/import-tree";

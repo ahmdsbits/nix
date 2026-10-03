@@ -23,7 +23,7 @@
         auto-optimise-store = true;
 
         # Workaround for https://github.com/NixOS/nix/issues/9574
-        nix-path = config.nix.nixPath;
+        nix-path = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
       };
       gc = {
         automatic = true;
@@ -34,7 +34,6 @@
       channel.enable = false;
 
       registry = lib.mkForce (lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs);
-      nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
       # nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
     };
   };
