@@ -15,12 +15,12 @@
     };
 
     services.samba = {
-      extraConfig = ''
-        server string = ${config.networking.hostName}
-        netbios name = ${config.networking.hostName}
-      '';
+      settings = {
+        global = {
+          "server string" = config.networking.hostName;
+          "netbios name" = config.networking.hostName;
+        };
 
-      shares = {
         Data = {
           path = "/mnt/Data";
           browseable = "yes";
@@ -44,6 +44,6 @@
       };
     };
 
-    modules = [ self.modules.nixos.samba ];
+    imports = with self.modules.nixos; [ samba ];
   };
 }
