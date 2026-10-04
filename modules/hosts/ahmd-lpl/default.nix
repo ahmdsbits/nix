@@ -5,7 +5,8 @@
       laptop
       gnome
       containers
-      
+      samba
+
       # Users
       ahmds
     ];

@@ -2,6 +2,7 @@
   flake.modules.nixos.hsrv = { config, pkgs, ... }: {
     networking.hostName = "hsrv";
 
+    programs.ssh.startAgent = true;
     services.openssh = {
       enable = true;
       ports = [ 22 ];
