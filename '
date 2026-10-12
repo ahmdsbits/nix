@@ -1,9 +1,0 @@
-{ self, ... }: {
-  flake.modules.nixos.ahmd-lpl = { pkgs, ... }: {
-    home-manager.users.root.imports = [ self.modules.homeManager.ahmd-lpl ];
-    networking.hostName = "ahmd-lpl";
-    environment.systemPackages = with pkgs; [
-      dotnetCorePackages.sdk_10_0
-    ];
-  };
-}
