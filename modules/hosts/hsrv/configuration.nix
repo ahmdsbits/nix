@@ -2,6 +2,10 @@
   flake.modules.nixos.hsrv = { config, pkgs, ... }: {
     networking.hostName = "hsrv";
 
+    environment.systemPackages = with pkgs; [
+      ghostty
+    ];
+
     programs.ssh.startAgent = true;
     services.openssh = {
       enable = true;
