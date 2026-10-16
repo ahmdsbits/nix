@@ -58,6 +58,11 @@
     boot.loader.limine = {
       enable = true;
       efiSupport = true;
+      secureBoot = {
+        enable = true;
+        autoGenerateKeys = true;
+        autoEnrollKeys.enable = true;
+      };
       maxGenerations = 10;
       extraConfig = ''
         quiet: yes
