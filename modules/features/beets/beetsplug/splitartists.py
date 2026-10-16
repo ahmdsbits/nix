@@ -14,6 +14,19 @@ def split_comma_string(val):
     raw = val[0] if isinstance(val, (list, tuple)) else str(val)
     return [part.strip() for part in raw.split(",") if part.strip()]
 
+def join_artists(artist_list):
+    """Joins a list of artists using commas and an ampersand:
+    ['A', 'B'] -> 'A & B'
+    ['A', 'B', 'C'] -> 'A, B & C'
+    """
+    if not artist_list:
+        return ""
+    if len(artist_list) == 1:
+        return artist_list[0]
+    if len(artist_list) == 2:
+        return f"{artist_list[0]} & {artist_list[1]}"
+    return f"{', '.join(artist_list[:-1])} & {artist_list[-1]}"
+
 def process_album(alb):
     changed = False
     if alb.albumartists and len(alb.albumartists) > 1:
@@ -35,6 +48,7 @@ def process_album(alb):
 def process_item(item):
     changed = False
 
+    # 1. Keep albumartist locked to the primary artist
     if item.albumartists and len(item.albumartists) > 1:
         if item.albumartist != item.albumartists[0]:
             item.albumartist = item.albumartists[0]
@@ -50,20 +64,26 @@ def process_item(item):
         item.albumartist = parts[0]
         changed = True
 
+    # 2. Concatenate track artist with ',' and '&'
     if item.artists and len(item.artists) > 1:
-        if item.artist != item.artists[0]:
-            item.artist = item.artists[0]
+        combined = join_artists(item.artists)
+        if item.artist != combined:
+            item.artist = combined
             changed = True
     elif should_split(item.artists):
         parts = split_comma_string(item.artists)
         item.artists = parts
-        item.artist = parts[0]
-        changed = True
+        combined = join_artists(parts)
+        if item.artist != combined:
+            item.artist = combined
+            changed = True
     elif should_split(item.artist):
         parts = split_comma_string(item.artist)
         item.artists = parts
-        item.artist = parts[0]
-        changed = True
+        combined = join_artists(parts)
+        if item.artist != combined:
+            item.artist = combined
+            changed = True
 
     return changed
 
