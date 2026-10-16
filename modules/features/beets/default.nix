@@ -69,8 +69,8 @@
 
         replaygain = {
           backend = "ffmpeg";
-          targetlevel = 90;
-          r128_targetlevel = 90;
+          targetlevel = 93;
+          r128_targetlevel = 93;
           overwrite = true;
         };
 
