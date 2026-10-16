@@ -63,7 +63,7 @@
         lastgenre = {
           cleanup_existing = true;
           force = true;
-          source = "track";
+          source = "album";
           count = 3;
         };
 
