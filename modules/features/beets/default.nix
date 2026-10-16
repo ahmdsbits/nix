@@ -53,7 +53,6 @@
           "edit"
           "info"
           "splitartists"
-          "ftintitle"
         ];
 
         embedart = {
@@ -70,13 +69,9 @@
 
         replaygain = {
           backend = "ffmpeg";
-          targetlevel = 93;
-          r128_targetlevel = 93;
+          targetlevel = 90;
+          r128_targetlevel = 90;
           overwrite = true;
-        };
-
-        ftintitle = {
-          drop = true;
         };
 
         zero = {
