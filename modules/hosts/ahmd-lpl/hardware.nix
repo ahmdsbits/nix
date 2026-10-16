@@ -42,8 +42,8 @@
       "zswap.max_pool_percent=60"
       "zswap.zpool=zsmalloc"
       "transparent_hugepage=madvise"
-      "i915.force_probe=!7dd5"
-      "xe.force_probe=7dd5"
+      # "i915.force_probe=!7dd5"
+      # "xe.force_probe=7dd5"
     ];
 
     boot.initrd.systemd.enable = true;
