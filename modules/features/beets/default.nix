@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{ ... }: {
   flake.modules.homeManager.beets = { config, pkgs, ... }: {
     programs.beets = {
       enable = true;
@@ -33,9 +33,9 @@
         pluginpath = [ "${./beetsplug}" ];
 
         paths = {
-          default = "%first{$album_artist_no_feat,1,0,$,,}/$album/$track - $title";
-          singleton = "$artist/$title";
-          comp = "Various Artists/$album%aunique{}/$track - $title";
+          default = "%first{$albumartists}/$album/$track - $title";
+          singleton = "%first{$artists}/$title";
+          comp = "Various Artists/%first{$albumartists}/$track - $title";
         };
 
         plugins = [
@@ -52,7 +52,7 @@
           "zero"
           "ftintitle"
           "info"
-          "splitartists"
+          # "splitartists"
         ];
 
         embedart = {
