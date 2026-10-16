@@ -53,6 +53,7 @@
           "edit"
           "info"
           "splitartists"
+          "ftintitle"
         ];
 
         embedart = {
@@ -72,6 +73,10 @@
           targetlevel = 93;
           r128_targetlevel = 93;
           overwrite = true;
+        };
+
+        ftintitle = {
+          drop = true;
         };
 
         zero = {
