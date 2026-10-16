@@ -106,7 +106,7 @@
             fi
 
             sleep "$POLL_INTERVAL"
-        done        
+        done
       '';
     };
   };

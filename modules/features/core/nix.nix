@@ -2,9 +2,7 @@
   flake.modules.nixos.core = { pkgs, config, ... }: {
     nixpkgs = {
       config.allowUnfree = true;
-      overlays = [
-        inputs.nix-cachyos-kernel.overlays.pinned
-      ];
+      overlays = [];
     };
     nix = let
       flakeInputs = (lib.filterAttrs (_: lib.isType "flake") inputs);

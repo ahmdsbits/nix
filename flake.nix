@@ -6,9 +6,7 @@
 
     flake-parts.url = "https://flakehub.com/f/hercules-ci/flake-parts/0.1";
     import-tree.url = "github:vic/import-tree";
-    
-    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
-    
+
     home-manager = {
       url = "https://flakehub.com/f/nix-community/home-manager/0.1";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -16,7 +16,7 @@
     boot.consoleLogLevel = 0;
     boot.initrd.verbose = false;
     
-    boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
+    boot.kernelPackages = pkgs.linuxPackages_latest;
 
     boot.initrd.availableKernelModules = [
       "xhci_pci"
@@ -42,8 +42,8 @@
       "zswap.max_pool_percent=60"
       "zswap.zpool=zsmalloc"
       "transparent_hugepage=madvise"
-      # "i915.force_probe=!7dd5"
-      # "xe.force_probe=7dd5"
+      "i915.force_probe=!7dd5"
+      "xe.force_probe=7dd5"
     ];
 
     boot.initrd.systemd.enable = true;
@@ -76,7 +76,7 @@
       "vm.swappiness" = 180;
       "vm.watermark_boost_factor" = 0;
       "vm.watermark_scale_factor" = 125;
-      "vm.page-cluster" = 0;
+      "vm.page-cluster" = 1;
       "vm.dirty_bytes" = 268435456;
       "vm.dirty_background_bytes" = 134217728;
       "vm.max_map_count" = 2147483642;

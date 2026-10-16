@@ -9,7 +9,7 @@
     services.fstrim.enable = true;
     hardware.bluetooth.enable = true;
 
-    boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto;
+    boot.kernelPackages = pkgs.linuxPackages_latest;
 
     boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     boot.initrd.kernelModules = [  ];
@@ -47,7 +47,7 @@
       "vm.swappiness" = 180;
       "vm.watermark_boost_factor" = 0;
       "vm.watermark_scale_factor" = 125;
-      "vm.page-cluster" = 0;
+      "vm.page-cluster" = 1;
       "vm.dirty_bytes" = 268435456;
       "vm.dirty_background_bytes" = 134217728;
       "vm.max_map_count" = 2147483642;
