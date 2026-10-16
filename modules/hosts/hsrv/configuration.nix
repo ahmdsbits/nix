@@ -51,4 +51,8 @@
 
     imports = with self.modules.nixos; [ samba ];
   };
+
+  flake.modules.homeManager.hsrv = {
+    programs.beets.settings.directory = "/mnt/Data/Music";
+  };
 }
