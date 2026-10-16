@@ -21,8 +21,8 @@
           fi
 
           sudo nixos-install \
-            --option extra-substituters "${substituters}" \
-            --option extra-trusted-public-keys "${public-keys}" \
+            --option substituters "${substituters}" \
+            --option trusted-public-keys "${public-keys}" \
             --keep-going \
             --no-root-password \
             --flake "$TARGET_FLAKE"
