@@ -27,7 +27,7 @@
             --prefix PYTHONPATH : "${pkgs.python3.withPackages (ps: [ ps.pygobject3 ps.gst-python ])}/${pkgs.python3.sitePackages}"
         '';
       });
-      settings = lib.mkDefault {
+      settings = {
         directory = "${config.home.homeDirectory}/Music";
         library = "${config.home.homeDirectory}/.local/share/beets/library.db";
         pluginpath = [ "${./beetsplug}" ];
