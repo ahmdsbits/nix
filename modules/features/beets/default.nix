@@ -8,7 +8,6 @@
           (pkgs.python3.pkgs.beets.override {
             pluginOverrides = {
               musicbrainz.enable = true;
-              mbsync.enable = true;
               chroma.enable = true;
               deezer.enable = true;
               fromfilename.enable = true;
@@ -41,7 +40,6 @@
 
         plugins = [
           "musicbrainz"
-          "mbsync"
           "chroma"
           "deezer"
           "fromfilename"
@@ -52,9 +50,9 @@
           "replaygain"
           "scrub"
           "zero"
-          "ftintitle"
+          "edit"
           "info"
-          # "splitartists"
+          "splitartists"
         ];
 
         embedart = {
