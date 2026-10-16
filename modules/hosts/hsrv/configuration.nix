@@ -1,4 +1,4 @@
-{ self, ... }: {
+{ self, lib, ... }: {
   flake.modules.nixos.hsrv = { config, pkgs, ... }: {
     networking.hostName = "hsrv";
 
@@ -53,6 +53,6 @@
   };
 
   flake.modules.homeManager.hsrv = {
-    programs.beets.settings.directory = "/mnt/Data/Music";
+    programs.beets.settings.directory = lib.mkForce "/mnt/Data/Music";
   };
 }
