@@ -17,6 +17,7 @@
     modules = with self.modules.homeManager; [
       ahmds
       ahmds-devel
+      beets
       laptop
       ahmd-lpl
       gnome

@@ -60,7 +60,7 @@
     ];
     
     imports = with self.modules.nixos; [
-      # tweaks-gstreamer
+      gstreamer
     ];
   };
   
