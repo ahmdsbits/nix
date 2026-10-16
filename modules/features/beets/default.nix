@@ -57,6 +57,7 @@
 
         embedart = {
           remove_art_file = true;
+          ifempty = true;
         };
 
         lastgenre = {
