@@ -16,8 +16,16 @@
     boot.plymouth.enable = true;
     
     # Fixes crash to GDM (maybe)
-    systemd.services."getty@tty1".enable = false;
-    systemd.services."autovt@tty1".enable = false;
+    # systemd.services."getty@tty1".enable = false;
+    # systemd.services."autovt@tty1".enable = false;
+
+    # ghosttty fix
+    systemd.user.services."app-com.mitchellh.ghostty" = {
+      overrideStrategy = "asDropin";
+      serviceConfig = {
+        Type = "simple";
+      };
+    };
     
     environment.systemPackages = with pkgs; [
       ghostty
